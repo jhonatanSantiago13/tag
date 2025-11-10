@@ -40,38 +40,57 @@ $menciones  = $data['menciones'];
         'date_time'  => $date_time,
         'dot_rts'    => $dat_rts,
         'id_rts'     => $id_rts,
-        'menciones'  => $menciones
+        'menciones'  => $menciones,
+        'query'      => "INSERT INTO notificaciones (dot_nota_tag, id_rts_tag, inicales_tag, usuario_tag,fecha_tag, estatus_tag)
+    VALUES('$dot_rts', '$id_rts', 'JSG', '$usuario', '$fecha', 'Enviado') "
     ]
 ]);
  */
 
+
+
 $insert =  false;
 
 foreach ($menciones as $index => $mencion) {
+
+    /* echo "INSERT INTO notificaciones (dot_nota_tag, id_rts_tag, inicales_tag, usuario_tag,fecha_tag, estatus_tag)
+    VALUES('$dot_rts', '$id_rts', '$mencion', '$usuario', '$fecha', 'Enviado') "; */
    
-    $query_inseert = mysqli_query($conex_i, "INSERT INTO dt_notas_ok (dot_nota_tag, id_rts_tag, inicales_tag, usuario_tag,fecha_tag, estatus_tag)
+    $query_inseert = mysqli_query($conex_i, "INSERT INTO notificaciones (dot_nota_tag, id_rts_tag, inicales_tag, usuario_tag,fecha_tag, estatus_tag)
     VALUES('$dot_rts', '$id_rts', '$mencion', '$usuario', '$fecha', 'Enviado') ");
 
     if ($query_inseert) {
         $insert = true;
 
-        echo json_encode([
+       /*  echo json_encode([
             'success' => true,
             'message' => 'Mención insertada correctamente.',
             'mencion' => $mencion
-        ]);
+        ]); */
 
     } else {
         $insert = false;
         break; // Si una inserción falla, salimos del bucle
 
-        echo json_encode([
+        /* echo json_encode([
             'success' => false,
             'error' => 'Error al insertar la mención: ' . mysqli_error($conex_i),
             'mencion' => $mencion,
-            "query"   => "INSERT INTO dt_notas_ok (dot_nota_tag, id_rts_tag, inicales_tag, usuario_tag,fecha_tag, estatus_tag)
+            "query"   => "INSERT INTO notificaciones (dot_nota_tag, id_rts_tag, inicales_tag, usuario_tag,fecha_tag, estatus_tag)
                             VALUES('$dot_rts', '$id_rts', '$mencion', '$usuario', '$fecha', 'Enviado')"
-        ]);
+        ]); */
     }
 
+}
+
+if ($insert) {
+    echo json_encode([
+        'success' => true,
+        'message' => 'Todas las menciones insertadas correctamente.'
+    ]);
+} else {
+    echo json_encode([
+        'success' => false,
+        'error' => 'Error al insertar una o más menciones.'
+    ]);
 }

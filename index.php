@@ -433,6 +433,7 @@ btnGuardar && btnGuardar.addEventListener('click', async () => {
       body: JSON.stringify(payload)
     });
     const json = await res.json();
+    // const text = await res.text();
     console.log('✅ Guardado correctamente:', json);
   } catch (err) {
     console.error('❌ Error al guardar:', err);
@@ -458,7 +459,7 @@ const formatCurrentDateTime = () => {
     const seconds = String(now.getSeconds()).padStart(2, '0');
 
     // Combinar todo en el formato deseado
-    const formattedDateTime = `${day}-${month}-${year} ${hours}:${minutes}:${seconds}`;
+    const formattedDateTime = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 
      return formattedDateTime;
 
