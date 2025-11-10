@@ -2,6 +2,8 @@
 
  // 🔹 Variable PHP con el nombre corto del usuario actual
  $thenomcorto = "Sandbox"; 
+ $dot  = "1407180000";
+ $id_rts = "299";
 
 ?>
 
@@ -63,6 +65,8 @@ VARIABLES Y REFERENCIAS BÁSICAS
 
  // 🔹 PHP imprime aquí el valor directamente dentro del JS
   const currentUser = "<?php echo $thenomcorto; ?>";
+  const dot = "<?php echo $dot; ?>";
+  const id_rts = "<?php echo $id_rts; ?>";
 
 const editor = document.getElementById('editor');          // Área de texto editable (donde se escriben los comentarios)
 const suggestions = document.getElementById('suggestions'); // Contenedor donde se muestran las sugerencias de menciones (@)
@@ -354,7 +358,7 @@ editor.addEventListener('keyup', async (e) => {
 
   if (match) {
   const term = match[1];
-  if (term.length >= 3) {
+  if (term.length >= 2) {
     debouncedFetch(term);   // 🔹 Solo consulta cuando hay 3 o más caracteres
   } else {
     hideSuggestions();      // 🔹 Oculta sugerencias si hay menos de 3 letras
@@ -403,17 +407,22 @@ document.addEventListener('click', (e) => {
 /* ============================================================
    💾 BOTÓN GUARDAR: ENVÍO DEL COMENTARIO Y MENCIONES
    ============================================================ */
+
 btnGuardar && btnGuardar.addEventListener('click', async () => {
+
   const comentario = editor.innerText.trim(); // Texto del comentario sin etiquetas HTML
   const payload = {
     comentario,              // El texto del comentario
     menciones: mentionsList, // Lista de menciones (@JSG, @ABC, etc.)
     usuario: (typeof currentUser !== 'undefined' ? currentUser : null), // Usuario actual (desde PHP)
     // date_time: (new Date()).toISOString() // Fecha y hora actual en formato ISO
-    day_time: formatCurrentDateTime() // Fecha y hora actual en formato DD-MM-AAAA HH:MM:SS
+    dot_rts: (typeof dot !== 'undefined' ? dot : null), // Dot actual (desde PHP)
+    id_rts: (typeof id_rts !== 'undefined' ? id_rts : null), // id_rts actual (desde PHP)
+    date_time: formatCurrentDateTime() // Fecha y hora actual en formato DD-MM-AAAA HH:MM:SS
+
   };
 
-  /* console.log("datos a enviar", payload);
+ /*  console.log("datos a enviar", payload);
   return false; */
 
   // Envío mediante fetch (POST JSON)
@@ -455,7 +464,6 @@ const formatCurrentDateTime = () => {
 
 };
 
- 
 </script>
 </body>
 </html>
