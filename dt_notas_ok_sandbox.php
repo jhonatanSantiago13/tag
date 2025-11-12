@@ -51,6 +51,41 @@ $menciones  = $data['menciones'];
 
 $insert =  false;
 
+if (empty($menciones)) {
+   
+    /* inseetar el comentario*/
+
+    $razon_nota = "Renta";
+    $tipo_nota  = "Operaciones";
+
+    // Obtener la empresa y la sucursal del contrato
+
+    $query_conrato = mysqli_query($conex_i, "SELECT sucursal_rts , empresa_rts FROM rentas WHERE dot_rts = '$dot_rts'");
+
+    $rows = mysqli_fetch_array($query_conrato);
+
+    $sucursal_nota = $rows['sucursal_rts'];
+    $empresa_nota  = $rows['empresa_rts'];
+    
+
+    $query_insert_nota = mysqli_query($conex_i, "INSERT INTO notas(dot_nota, razon_nota, `iniciales_nota`, `fecha_nota`, `texto_nota`, `tipo_nota`, `sucursal_nota`, `empresa_nota`) 
+    VALUES ('$dot_rts', '$razon_nota', '$usuario', '$fecha', '$comentario', '$tipo_nota', '$sucursal_nota', '$empresa_nota') ");
+
+    if ($query_insert_nota) {
+        echo json_encode([
+            'success' => true,
+            'message' => 'Comentario y menciones insertadas correctamente.'
+        ]);
+    } else {
+        echo json_encode([
+            'success' => false,
+            'error' => 'Error al insertar el comentario: ' . mysqli_error($conex_i)
+        ]);
+    }
+    exit;
+
+}
+
 foreach ($menciones as $index => $mencion) {
 
     /* echo "INSERT INTO notificaciones (dot_nota_tag, id_rts_tag, inicales_tag, usuario_tag,fecha_tag, estatus_tag)
@@ -79,15 +114,48 @@ foreach ($menciones as $index => $mencion) {
             "query"   => "INSERT INTO notificaciones (dot_nota_tag, id_rts_tag, inicales_tag, usuario_tag,fecha_tag, estatus_tag)
                             VALUES('$dot_rts', '$id_rts', '$mencion', '$usuario', '$fecha', 'Enviado')"
         ]); */
+
     }
 
 }
 
 if ($insert) {
-    echo json_encode([
+   /*  echo json_encode([
         'success' => true,
         'message' => 'Todas las menciones insertadas correctamente.'
-    ]);
+    ]); */
+
+    /* inseetar el comentario*/
+
+    $razon_nota = "Renta";
+    $tipo_nota  = "Operaciones";
+
+    // Obtener la empresa y la sucursal del contrato
+
+    $query_conrato = mysqli_query($conex_i, "SELECT sucursal_rts , empresa_rts FROM rentas WHERE dot_rts = '$dot_rts'");
+
+    $rows = mysqli_fetch_array($query_conrato);
+
+    $sucursal_nota = $rows['sucursal_rts'];
+    $empresa_nota  = $rows['empresa_rts'];
+    
+
+    $query_insert_nota = mysqli_query($conex_i, "INSERT INTO notas(dot_nota, razon_nota, `iniciales_nota`, `fecha_nota`, `texto_nota`, `tipo_nota`, `sucursal_nota`, `empresa_nota`) 
+    VALUES ('$dot_rts', '$razon_nota', '$usuario', '$fecha', '$comentario', '$tipo_nota', '$sucursal_nota', '$empresa_nota') ");
+
+    if ($query_insert_nota) {
+        echo json_encode([
+            'success' => true,
+            'message' => 'Comentario y menciones insertadas correctamente.'
+        ]);
+    } else {
+        echo json_encode([
+            'success' => false,
+            'error' => 'Error al insertar el comentario: ' . mysqli_error($conex_i)
+        ]);
+    }
+
+
 } else {
     echo json_encode([
         'success' => false,

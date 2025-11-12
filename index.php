@@ -435,6 +435,9 @@ btnGuardar && btnGuardar.addEventListener('click', async () => {
     const json = await res.json();
     // const text = await res.text();
     console.log('✅ Guardado correctamente:', json);
+    alert('Comentario guardado con éxito.');
+    window.location.reload();
+
   } catch (err) {
     console.error('❌ Error al guardar:', err);
   }
